@@ -1,0 +1,25 @@
+{
+  "name": "vuejs-sublime-complete",
+  "version": "0.0.1",
+  "description": "Complete Vue.js package for sublime",
+  "main": "vuejs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BrainBuzzer/vuejs-sublime-complete.git"
+  },
+  "keywords": [
+    "javascript",
+    "sublime",
+    "text",
+    "snippets",
+    "syntax",
+    "highlighting",
+    "vuejs"
+  ],
+  "author": "Aditya Giri",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BrainBuzzer/vuejs-sublime-complete/issues"
+  },
+  "homepage": "https://github.com/BrainBuzzer/vuejs-sublime-complete"
+}
