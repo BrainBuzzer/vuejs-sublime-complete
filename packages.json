@@ -1,0 +1,18 @@
+{
+
+	"package": {
+		"name": "Vuejs Complete Package",
+		"details": "https://github.com/BrainBuzzer/vuejs-sublime-complete",
+		"homepage": "https://github.com/BrainBuzzer/vuejs-sublime-complete",
+		"author": "Aditya Giri",
+		"issues": "https://github.com/BrainBuzzer/vuejs-sublime-complete/issues",
+		"releases": [
+			{
+				"sublime_text": "*",
+				"tags": true
+			}
+		]
+	}
+
+
+}
