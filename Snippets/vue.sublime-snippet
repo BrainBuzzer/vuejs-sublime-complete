@@ -6,6 +6,6 @@ var ${1:vm} = new Vue({
 	${3}
 })
 ]]></content>
-	<tabTrigger>v</tabTrigger>
+	<tabTrigger>vue</tabTrigger>
 	<scope>source.js</scope>
 </snippet>
