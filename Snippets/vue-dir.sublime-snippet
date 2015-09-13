@@ -1,0 +1,17 @@
+<snippet>
+	<content><![CDATA[
+Vue.directive('${1:my-directive}', {
+  bind: function () {
+
+  },
+  update: function (newValue, oldValue) {
+
+  },
+  unbind: function () {
+
+  }
+})
+]]></content>
+	<tabTrigger>vue-dir</tabTrigger>
+	<scope>source.js</scope>
+</snippet>
