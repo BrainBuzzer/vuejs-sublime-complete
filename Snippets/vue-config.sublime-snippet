@@ -1,0 +1,23 @@
+<snippet>
+	<content><![CDATA[
+{
+  debug: ${1:true},
+
+  strict: ${2:false},
+
+  prefix: ${3:'v-'},
+
+  delimiters: ${4:['{{', '}}']},
+
+  silent: ${5:false},
+
+  interpolate: ${6:true},
+
+  async: ${7:true},
+
+  proto: ${8:true}
+}
+]]></content>
+	<tabTrigger>vue-config</tabTrigger>
+	<scope>source.js</scope>
+</snippet>
