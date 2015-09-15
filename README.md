@@ -82,8 +82,6 @@ Create a custom filter using this snippet.
 	  //content
 	})
 
-And yeah __There are even more that are coming soon__.
-
 **vue-cdn**:
 Get a cdn snippet which would expand to something like this:
 	
@@ -102,6 +100,8 @@ Add a $watch property to any of your object.
 	vm.$watch('someObject', callback, {
 	  content
 	})
+
+And yeah __There are even more that are coming soon__.
 
 ## ToDo
 
