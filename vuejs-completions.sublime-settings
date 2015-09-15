@@ -1,0 +1,67 @@
+{
+
+	"vuejs_attributes":[
+		[
+			"v-text\tVueJS",
+			"v-text=\"'${1:textContext}'\""
+		],
+		[
+			"v-html\tVueJS",
+			"v-html=\"'${1:html}'\""
+		],
+		[
+			"v-show\tVueJS",
+			"v-show=\"'${1:none}'\""
+		],
+		[
+			"v-class\tVueJS",
+			"v-class=\"'${1:classOnly}'\""
+		],
+		[
+			"v-attr\tVueJS",
+			"v-attr=\"'${1:moreAttributes}'\""
+		],
+		[
+			"v-style\tVueJS",
+			"v-style=\"'${1:cssStyleOnly}'\""
+		],
+		[
+			"v-on\tVueJS",
+			"v-on=\"'${1:onClick}'\""
+		],
+		[
+			"v-model\tVueJS",
+			"v-model=\"'${1:model}'\""
+		],
+		[
+			"v-if\tVueJS",
+			"v-if=\"'${1:your_if_statement}'\""
+		],
+		[
+			"v-repeat\tVueJS",
+			"v-repeat=\"'${1:array}'\""
+		],
+		[
+			"v-transition\tVueJS",
+			"v-transition=\"'${1}'\""
+		],
+		[
+			"v-ref\tVueJS",
+			"v-ref=\"'$1'\""
+		],
+		[
+			"v-el\tVueJS",
+			"v-el=\"'$1'\""
+		],
+		[
+			"v-pre\tVueJS",
+			"v-pre"
+		],
+		[
+			"v-cloak\tVueJS",
+			"v-cloak"
+		]
+
+	]
+
+}
