@@ -1,7 +1,7 @@
 <snippet>
 	<content><![CDATA[
-vm.$watch('${1:someObject}', ${2:callback}, {
-  ${3://content}
+${1:vm}.$watch('${2:someObject}', ${3:callback}, {
+  ${4://content}
 })
 ]]></content>
 	<tabTrigger>wat</tabTrigger>
