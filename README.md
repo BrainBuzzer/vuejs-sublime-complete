@@ -84,6 +84,11 @@ Create a custom filter using this snippet.
 
 And yeah __There are even more that are coming soon__.
 
+**vue-cdn**:
+Get a cdn snippet which would expand to something like this:
+	
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.12.14/vue.min.js"></script>
+
 ## ToDo
 
 * Add more snippets
