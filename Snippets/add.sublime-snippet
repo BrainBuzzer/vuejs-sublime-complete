@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+${1:vm}.$add(${2:key}, ${3:value})
+]]></content>
+	<tabTrigger>add</tabTrigger>
+	<scope>source.js</scope>
+</snippet>
