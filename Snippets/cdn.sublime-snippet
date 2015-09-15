@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.12.14/vue.min.js"></script>
+]]></content>
+	<tabTrigger>vue-cdn</tabTrigger>
+	<scope>meta.html</scope>
+</snippet>
