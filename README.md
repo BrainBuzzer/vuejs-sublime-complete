@@ -22,7 +22,7 @@ We are providing syntax highlighting as it is from a fork of vuejs/vuejs-syntax-
 
 We provide following set of snippets. Have  a look at them. They may be increased or decreased as per the version of VueJS. Just put those letters and press <key>tab</key>
 
-**v**:
+* **v**:
 This is a simple trigger which may be used like this:
 
 	var demo = new Vue({
@@ -32,14 +32,14 @@ This is a simple trigger which may be used like this:
 		}
 	})
 
-**vue**:
+* **vue**:
 This ones is great if you have a brand new js file and you want to trigger the whole thing at ones.
 
 	var vm = new Vue({
 		el: "#replace"
 	})
 
-**vue-config**:
+* **vue-config**:
 This snippet is for expanding config of the whole VueJS. It looks like this:
 
 	{
@@ -60,7 +60,7 @@ This snippet is for expanding config of the whole VueJS. It looks like this:
 	  proto: true
 	}
 
-**vue-dir**:
+* **vue-dir**:
 Create a custom directive very easily using this snippet. You custom directive will look like this.
 
 	Vue.directive('my-directive', {
@@ -75,19 +75,20 @@ Create a custom directive very easily using this snippet. You custom directive w
 	  }
 	})
 
-**vue-filter**:
+* **vue-filter**:
 Create a custom filter using this snippet.
 
 	Vue.filter('my-filter', function (value) {
 	  //content
 	})
 
-And yeah __There are even more that are coming soon__.
-
-**vue-cdn**:
+* **vue-cdn**:
 Get a cdn snippet which would expand to something like this:
 	
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.12.14/vue.min.js"></script>
+
+
+And yeah __There are even more that are coming soon__.
 
 ## ToDo
 
