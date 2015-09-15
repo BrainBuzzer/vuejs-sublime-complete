@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[
+${1:vm}.$log(${2:[keyPath-optional]})
+]]></content>
+	<tabTrigger>log</tabTrigger>
+	<scope>source.js</scope>
+</snippet>
