@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[
-${1:vm}.$set(${2:key}, ${3:value})
+${1:vm}.\$set(${2:key}, ${3:value})
 ]]></content>
 	<tabTrigger>set</tabTrigger>
 	<scope>source.js</scope>

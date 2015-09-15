@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[
-${1:vm}.$delete(${2:key})
+${1:vm}.\$delete(${2:key})
 ]]></content>
 	<tabTrigger>delete</tabTrigger>
 	<scope>source.js</scope>

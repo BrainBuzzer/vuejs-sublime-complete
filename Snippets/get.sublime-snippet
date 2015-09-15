@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[
-${1:vm}.$get(${expression})
+${1:vm}.\$get(${expression})
 ]]></content>
 	<tabTrigger>get</tabTrigger>
 	<scope>source.js</scope>

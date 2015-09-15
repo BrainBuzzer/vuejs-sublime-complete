@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[
-${1:vm}.$interpolate(${2:templateString})
+${1:vm}.\$interpolate(${2:templateString})
 ]]></content>
 	<tabTrigger>ipo</tabTrigger>
 	<scope>source.js</scope>
