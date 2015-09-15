@@ -89,6 +89,20 @@ Get a cdn snippet which would expand to something like this:
 	
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.12.14/vue.min.js"></script>
 
+**vue-extend**:
+A snippet for extend function.
+
+	var Profile = Vue.extend({
+	  template: '<p>{{firstName}} {{lastName}} aka {{alias}}</p>'
+	})
+
+**wat**: 
+Add a $watch property to any of your object.
+
+	vm.$watch('someObject', callback, {
+	  content
+	})
+
 ## ToDo
 
 * Add more snippets
