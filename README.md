@@ -101,6 +101,36 @@ Add a $watch property to any of your object.
 	  content
 	})
 
+**get**: 
+Add get easily.
+
+	vm.$get(expression)
+
+**set**:
+Setter in easy way:
+
+	vm.$set(key, value)
+
+**add**:
+	
+	vm.$add(key, value)
+
+**delete**:
+	
+	vm.$delete(key)
+
+**eval**:
+
+	vm.$eval(msg | uppercase)
+
+**ipo**:
+
+	vm.$interpolate(templateString)
+
+**log**:
+
+	vm.$log([keypath-optional])
+
 And yeah __There are even more that are coming soon__.
 
 ## ToDo
