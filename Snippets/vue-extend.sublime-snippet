@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[
+var ${1:Profile} = Vue.extend({
+  template: ${2:'<p>{{firstName}} {{lastName}} aka {{alias}}</p>'}
+})
+
+]]></content>
+	<tabTrigger>vue-extend</tabTrigger>
+	<scope>source.js</scope>
+</snippet>
