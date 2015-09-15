@@ -24,14 +24,14 @@ We provide following set of snippets. Have  a look at them. They may be increase
 
 * **v**:
 This is a simple trigger which may be used like this:
-
+	```
 	var demo = new Vue({
 		data [v]Press tab here to transform in something like this:
 		data: {
 			Your text here|
 		}
 	})
-
+	```
 * **vue**:
 This ones is great if you have a brand new js file and you want to trigger the whole thing at ones.
 
