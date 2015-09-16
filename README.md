@@ -1,6 +1,6 @@
 # VueJS Code completion for sublime
 
-This package is a complete set of snippets and vue syntax highlighting and is under development. This package is built by [Aditya Giri](https://github.com/BrainBuzzer) and is being used by [LivonAir](http://livonair.com).
+This package is a complete set of snippets and vue syntax highlighting and is **under development** version number is 0.3.3 . This package is built by [Aditya Giri](https://github.com/BrainBuzzer) and is being used by [LivonAir](http://livonair.com).
 
 ## Installation
 
