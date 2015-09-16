@@ -10,7 +10,7 @@ To install this package, clone this repository in your machine and move to your 
 
 ### Package Control
 
-Coming Soon.
+Go ahead and search for __vuejs complete package.__ Just install it.
 
 ## Usage
 
