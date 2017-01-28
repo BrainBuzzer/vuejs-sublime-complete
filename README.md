@@ -33,7 +33,7 @@ This is a simple trigger which may be used like this:
 	})
 
 **vue**:
-This ones is great if you have a brand new js file and you want to trigger the whole thing at ones.
+This one is great if you have a brand new js file and you want to trigger the whole thing at once.
 
 	var vm = new Vue({
 		el: "#replace"
@@ -84,7 +84,7 @@ Create a custom filter using this snippet.
 
 **vue-cdn**:
 Get a cdn snippet which would expand to something like this:
-	
+
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.12.14/vue.min.js"></script>
 
 **vue-extend**:
@@ -94,14 +94,14 @@ A snippet for extend function.
 	  template: '<p>{{firstName}} {{lastName}} aka {{alias}}</p>'
 	})
 
-**wat**: 
+**wat**:
 Add a $watch property to any of your object.
 
 	vm.$watch('someObject', callback, {
 	  content
 	})
 
-**get**: 
+**get**:
 Add get easily.
 
 	vm.$get(expression)
@@ -112,11 +112,11 @@ Setter in easy way:
 	vm.$set(key, value)
 
 **add**:
-	
+
 	vm.$add(key, value)
 
 **delete**:
-	
+
 	vm.$delete(key)
 
 **eval**:
