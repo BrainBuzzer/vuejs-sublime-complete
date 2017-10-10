@@ -1,6 +1,8 @@
 {
 	"extensions":
 	[
-		"vue"
+		"vue",
+		"we",
+		"wpy"
 	]
 }
