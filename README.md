@@ -24,113 +24,100 @@ We provide following set of snippets. Have  a look at them. They may be increase
 
 **v**:
 This is a simple trigger which may be used like this:
-
-	var demo = new Vue({
-		data [v]Press tab here to transform in something like this:
-		data: {
-			Your text here|
-		}
-	})
-
+```js
+var demo = new Vue({
+  data [v]Press tab here to transform in something like this:
+  data: {
+    // Your text here
+  }
+})
+```
 **vue**:
 This one is great if you have a brand new js file and you want to trigger the whole thing at once.
-
-	var vm = new Vue({
-		el: "#replace"
-	})
-
+```js
+var vm = new Vue({
+	el: "#replace"
+})
+```
 **vue-config**:
 This snippet is for expanding config of the whole VueJS. It looks like this:
-
-	{
-	  debug: true,
-
-	  strict: false,
-
-	  prefix: 'v-',
-
-	  delimiters: ['{{', '}}']},
-
-	  silent: false,
-
-	  interpolate: true,
-
-	  async: true,
-
-	  proto: true
-	}
-
+```js
+{
+  debug: true,
+  strict: false,
+  prefix: 'v-',
+  delimiters: ['{{', '}}']},
+  silent: false,
+  interpolate: true,
+  async: true,
+  proto: true
+}
+```
 **vue-dir**:
 Create a custom directive very easily using this snippet. You custom directive will look like this.
-
-	Vue.directive('my-directive', {
-	  bind: function () {
-
-	  },
-	  update: function (newValue, oldValue) {
-
-	  },
-	  unbind: function () {
-
-	  }
-	})
-
+```js
+Vue.directive('my-directive', {
+  bind: function () {},
+  update: function (newValue, oldValue) {},
+  unbind: function () {}
+})
+```
 **vue-filter**:
 Create a custom filter using this snippet.
-
-	Vue.filter('my-filter', function (value) {
-	  //content
-	})
-
+```js
+Vue.filter('my-filter', function (value) {
+  // Content
+})
+```
 **vue-cdn**:
 Get a cdn snippet which would expand to something like this:
-
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.12.14/vue.min.js"></script>
-
+```html
+<script src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.12.14/vue.min.js"></script>
+```
 **vue-extend**:
 A snippet for extend function.
-
-	var Profile = Vue.extend({
-	  template: '<p>{{firstName}} {{lastName}} aka {{alias}}</p>'
-	})
-
+```js
+var Profile = Vue.extend({
+  template: '<p>{{firstName}} {{lastName}} aka {{alias}}</p>'
+})
+```
 **wat**:
 Add a $watch property to any of your object.
-
-	vm.$watch('someObject', callback, {
-	  content
-	})
-
+```js
+vm.$watch('someObject', callback, {
+  content
+})
+```
 **get**:
 Add get easily.
-
-	vm.$get(expression)
-
+```js
+vm.$get(expression)
+```
 **set**:
 Setter in easy way:
-
-	vm.$set(key, value)
-
+```js
+vm.$set(key, value)
+```
 **add**:
-
-	vm.$add(key, value)
-
+```js
+vm.$add(key, value)
+```
 **delete**:
-
-	vm.$delete(key)
-
+```js
+vm.$delete(key)
+```
 **eval**:
-
-	vm.$eval(msg | uppercase)
-
-**ipo**:
-
-	vm.$interpolate(templateString)
-
+```js
+vm.$eval(msg | uppercase)
+```
+**interpolate**:
+```js
+vm.$interpolate(templateString)
+```
 **log**:
-
-	vm.$log([keypath-optional])
-
+```js
+vm.$log([keypath-optional])
+```
 And yeah __There are even more that are coming soon__.
 
 ## ToDo
