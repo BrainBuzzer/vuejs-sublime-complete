@@ -1,470 +1,858 @@
-# [PackageDev] target_format: plist, ext: tmLanguage
+%YAML 1.2
 ---
 name: Vue Component
-scopeName: text.html.vue
-fileTypes: [vue]
-uuid: 5512c10d-4cc5-434c-b8fc-53b912f55ab3
+file_extensions: [vue]
+first_line_match: (?i)<(!DOCTYPE\s*)?html
+scope: text.html.vue
+variables:
+  unquoted_attribute_value: (?:[^\s<>/''"]|/(?!>))+
+  not_equals_lookahead: (?=\s*[^\s=])
 
-patterns:
-- include: '#vue-interpolations'
+contexts:
+  immediately-pop:
+  - match: ''
+    pop: true
 
-- name: meta.tag.any.html
-  begin: (<)([a-zA-Z0-9:-]++)(?=[^>]*></\2>)
-  beginCaptures:
-    '1': {name: punctuation.definition.tag.begin.html}
-    '2': {name: entity.name.tag.html}
-  end: (>)(<)(/)(\2)(>)
-  endCaptures:
-    '1': {name: punctuation.definition.tag.end.html}
-    '2': {name: punctuation.definition.tag.begin.html meta.scope.between-tag-pair.html}
-    '3': {name: punctuation.definition.tag.begin.html}
-    '4': {name: entity.name.tag.html}
-    '5': {name: punctuation.definition.tag.end.html}
-  patterns:
-  - include: '#tag-stuff'
+  else-pop:
+  - match: (?=\S)
+    pop: true
 
-- name: meta.tag.preprocessor.xml.html
-  begin: (<\?)(xml)
-  end: (\?>)
-  captures:
-    '1': {name: punctuation.definition.tag.html}
-    '2': {name: entity.name.tag.xml.html}
-  patterns:
-  - include: '#tag-generic-attribute'
-  - include: '#string-double-quoted'
-  - include: '#string-single-quoted'
+  main:
+  - include: langs
+  - include: template-tag
 
-- name: comment.block.html
-  begin: <!--
-  end: --\s*>
-  captures:
-    '0': {name: punctuation.definition.comment.html}
-  patterns:
-  - name: invalid.illegal.bad-comments-or-CDATA.html
-    match: --
-
-- name: meta.tag.sgml.html
-  begin: <!
-  end: '>'
-  captures:
-    '0': {name: punctuation.definition.tag.html}
-  patterns:
-  - name: meta.tag.sgml.doctype.html
-    begin: (?i:DOCTYPE)
-    end: (?=>)
+  - match: (<\?)(xml)
     captures:
-      '1': {name: entity.name.tag.doctype.html}
-    patterns:
-    - name: string.quoted.double.doctype.identifiers-and-DTDs.html
-      match: '"[^">]*"'
-  - name: constant.other.inline-data.html
-    begin: \[CDATA\[
-    end: ']](?=>)'
-  - name: invalid.illegal.bad-comments-or-CDATA.html
-    match: (\s*)(?!--|>)\S(\s*)
-
-- name: text.slm.embedded.html
-  begin: (?:^\s+)?(<)((?i:template))\b(?=[^>]*lang=(['"])slm\1?)
-  end: (</)((?i:template))(>)(?:\s*\n)?
-  captures:
-    '1': {name: punctuation.definition.tag.begin.html}
-    '2': {name: entity.name.tag.style.html}
-    '3': {name: punctuation.definition.tag.html}
-  patterns:
-  - include: '#tag-stuff'
-  - begin: (>)
-    beginCaptures:
-      '1': {name: punctuation.definition.tag.end.html}
-    end: (?=</(?i:template))
-    patterns:
-    - include: text.slm
-
-- name: text.jade.embedded.html
-  begin: (?:^\s+)?(<)((?i:template))\b(?=[^>]*lang=(['"])jade\1?)
-  end: (</)((?i:template))(>)(?:\s*\n)?
-  captures:
-    '1': {name: punctuation.definition.tag.begin.html}
-    '2': {name: entity.name.tag.style.html}
-    '3': {name: punctuation.definition.tag.html}
-  patterns:
-  - include: '#tag-stuff'
-  - begin: (>)
-    beginCaptures:
-      '1': {name: punctuation.definition.tag.end.html}
-    end: (?=</(?i:template))
-    patterns:
-    - include: text.jade
-
-- name: text.pug.embedded.html
-  begin: (?:^\s+)?(<)((?i:template))\b(?=[^>]*lang=(['"])pug\1?)
-  end: (</)((?i:template))(>)(?:\s*\n)?
-  captures:
-    '1': {name: punctuation.definition.tag.begin.html}
-    '2': {name: entity.name.tag.style.html}
-    '3': {name: punctuation.definition.tag.html}
-  patterns:
-  - include: '#tag-stuff'
-  - begin: (>)
-    beginCaptures:
-      '1': {name: punctuation.definition.tag.end.html}
-    end: (?=</(?i:template))
-    patterns:
-    - include: text.pug
-
-
-- name: source.stylus.embedded.html
-  begin: (?:^\s+)?(<)((?i:style))\b(?=[^>]*lang=(['"])stylus\1?)
-  end: (</)((?i:style))(>)(?:\s*\n)?
-  captures:
-    '1': {name: punctuation.definition.tag.begin.html}
-    '2': {name: entity.name.tag.style.html}
-    '3': {name: punctuation.definition.tag.html}
-  patterns:
-  - include: '#tag-stuff'
-  - begin: (>)
-    beginCaptures:
-      '1': {name: punctuation.definition.tag.end.html}
-    end: (?=</(?i:style))
-    patterns:
-    - include: source.stylus
-
-- name: source.postcss.embedded.html
-  begin: (?:^\s+)?(<)((?i:style))\b(?=[^>]*lang=(['"])postcss\1?)
-  end: (</)((?i:style))(>)(?:\s*\n)?
-  captures:
-    '1': {name: punctuation.definition.tag.begin.html}
-    '2': {name: entity.name.tag.style.html}
-    '3': {name: punctuation.definition.tag.html}
-  patterns:
-  - include: '#tag-stuff'
-  - begin: (>)
-    beginCaptures:
-      '1': {name: punctuation.definition.tag.end.html}
-    end: (?=</(?i:style))
-    patterns:
-    - include: source.postcss
-
-- name: source.sass.embedded.html
-  begin: (?:^\s+)?(<)((?i:style))\b(?=[^>]*lang=(['"])sass\1?)
-  end: (</)((?i:style))(>)(?:\s*\n)?
-  captures:
-    '1': {name: punctuation.definition.tag.begin.html}
-    '2': {name: entity.name.tag.style.html}
-    '3': {name: punctuation.definition.tag.html}
-  patterns:
-  - include: '#tag-stuff'
-  - begin: (>)
-    beginCaptures:
-      '1': {name: punctuation.definition.tag.end.html}
-    end: (?=</(?i:style))
-    patterns:
-    - include: source.sass
-    - include: source.scss
-
-- name: source.scss.embedded.html
-  begin: (?:^\s+)?(<)((?i:style))\b(?=[^>]*lang=(['"])scss\1?)
-  end: (</)((?i:style))(>)(?:\s*\n)?
-  captures:
-    '1': {name: punctuation.definition.tag.begin.html}
-    '2': {name: entity.name.tag.style.html}
-    '3': {name: punctuation.definition.tag.html}
-  patterns:
-  - include: '#tag-stuff'
-  - begin: (>)
-    beginCaptures:
-      '1': {name: punctuation.definition.tag.end.html}
-    end: (?=</(?i:style))
-    patterns:
-    - include: source.sass
-    - include: source.scss
-
-
-- name: source.less.embedded.html
-  begin: (?:^\s+)?(<)((?i:style))\b(?=[^>]*lang=(['"])less\1?)
-  end: (</)((?i:style))(>)(?:\s*\n)?
-  captures:
-    '1': {name: punctuation.definition.tag.begin.html}
-    '2': {name: entity.name.tag.style.html}
-    '3': {name: punctuation.definition.tag.html}
-  patterns:
-  - include: '#tag-stuff'
-  - begin: (>)
-    beginCaptures:
-      '1': {name: punctuation.definition.tag.end.html}
-    end: (?=</(?i:style))
-    patterns:
-    - include: source.less
-
-- name: source.css.embedded.html
-  begin: (?:^\s+)?(<)((?i:style))\b(?![^>]*/>)
-  end: (</)((?i:style))(>)(?:\s*\n)?
-  captures:
-    '1': {name: punctuation.definition.tag.begin.html}
-    '2': {name: entity.name.tag.style.html}
-    '3': {name: punctuation.definition.tag.html}
-  patterns:
-  - include: '#tag-stuff'
-  - begin: (>)
-    beginCaptures:
-      '1': {name: punctuation.definition.tag.end.html}
-    end: (?=</(?i:style))
-    patterns:
-    - include: source.css
-
-- name: source.coffee.embedded.html
-  begin: (?:^\s+)?(<)((?i:script))\b(?=[^>]*lang=(['"])coffee\1?)
-  beginCaptures:
-    '1': {name: punctuation.definition.tag.begin.html}
-    '2': {name: entity.name.tag.script.html}
-  end: (?<=</(script|SCRIPT))(>)(?:\s*\n)?
-  endCaptures:
-    '2': {name: punctuation.definition.tag.html}
-  patterns:
-  - include: '#tag-stuff'
-  - begin: (?<!</(?:script|SCRIPT))(>)
-    end: (</)((?i:script))
-    captures:
-      '1': {name: punctuation.definition.tag.begin.html}
-      '2': {name: entity.name.tag.script.html}
-    patterns:
-    - include: source.coffee
-
-- name: source.livescript.embedded.html
-  begin: (?:^\s+)?(<)((?i:script))\b(?=[^>]*lang=(['"])livescript\1?)
-  beginCaptures:
-    '1': {name: punctuation.definition.tag.begin.html}
-    '2': {name: entity.name.tag.script.html}
-  end: (?<=</(script|SCRIPT))(>)(?:\s*\n)?
-  endCaptures:
-    '2': {name: punctuation.definition.tag.html}
-  patterns:
-  - include: '#tag-stuff'
-  - begin: (?<!</(?:script|SCRIPT))(>)
-    end: (</)((?i:script))
-    captures:
-      '1': {name: punctuation.definition.tag.begin.html}
-      '2': {name: entity.name.tag.script.html}
-    patterns:
-    - include: source.livescript
-
-- name: source.js.embedded.html
-  begin: (<)((?i:script))\b(?![^>]*/>)(?![^>]*(?i:type.?=.?text/((?!javascript|babel).*)))
-  beginCaptures:
-    '1': {name: punctuation.definition.tag.begin.html}
-    '2': {name: entity.name.tag.script.html}
-  end: (?<=</(script|SCRIPT))(>)(?:\s*\n)?
-  endCaptures:
-    '2': {name: punctuation.definition.tag.html}
-  patterns:
-  - include: '#tag-stuff'
-  - begin: (?<!</(?:script|SCRIPT))(>)
-    end: (</)((?i:script))
-    captures:
-      '1': {name: punctuation.definition.tag.begin.html}
-      '2': {name: entity.name.tag.script.html}
-    patterns:
-    - name: comment.line.double-slash.js
-      match: (//).*?((?=</script)|$\n?)
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.xml.html
+    push:
+    - meta_scope: meta.tag.preprocessor.xml.html
+    - match: \?>
+      scope: punctuation.definition.tag.end.html
+      pop: true
+    - include: tag-generic-attribute
+    - include: string-double-quoted
+    - include: string-single-quoted
+  - match: <!--
+    scope: punctuation.definition.comment.begin.html
+    push:
+    - meta_scope: comment.block.html
+    - match: (-*)--\s*>
+      scope: punctuation.definition.comment.end.html
       captures:
-        '1': {name: punctuation.definition.comment.js}
-    - name: comment.block.js
-      begin: /\*
-      end: \*/|(?=</script)
-      captures:
-        '0': {name: punctuation.definition.comment.js}
-    - include: source.js
-
-- name: meta.tag.structure.any.html
-  begin: (</?)((?i:body|head|html)\b)
-  end: (>)
-  endCaptures:
-    '1': {name: punctuation.definition.tag.end.html}
-  captures:
-    '1': {name: punctuation.definition.tag.begin.html}
-    '2': {name: entity.name.tag.structure.any.html}
-  patterns:
-  - include: '#tag-stuff'
-
-- name: meta.tag.block.any.html
-  begin: (</?)((?i:address|blockquote|dd|div|dl|dt|fieldset|form|frame|frameset|h1|h2|h3|h4|h5|h6|iframe|noframes|object|ol|p|ul|applet|center|dir|hr|menu|pre)\b)
-  beginCaptures:
-    '1': {name: punctuation.definition.tag.begin.html}
-    '2': {name: entity.name.tag.block.any.html}
-  end: (>)
-  endCaptures:
-    '1': {name: punctuation.definition.tag.end.html}
-  patterns:
-  - include: '#tag-stuff'
-
-- name: meta.tag.inline.any.html
-  begin: (</?)((?i:a|abbr|acronym|area|b|base|basefont|bdo|big|br|button|caption|cite|code|col|colgroup|del|dfn|em|font|head|html|i|img|input|ins|isindex|kbd|label|legend|li|link|map|meta|noscript|optgroup|option|param|q|s|samp|script|select|small|span|strike|strong|style|sub|sup|table|tbody|td|textarea|tfoot|th|thead|title|tr|tt|u|var)\b)
-  beginCaptures:
-    '1': {name: punctuation.definition.tag.begin.html}
-    '2': {name: entity.name.tag.inline.any.html}
-  end: '((?: ?/)?>)'
-  endCaptures:
-    '1': {name: punctuation.definition.tag.end.html}
-  patterns:
-  - include: '#tag-stuff'
-
-- name: meta.tag.other.html
-  begin: (</?)([a-zA-Z0-9:-]+)
-  beginCaptures:
-    '1': {name: punctuation.definition.tag.begin.html}
-    '2': {name: entity.name.tag.other.html}
-  end: (>)
-  endCaptures:
-    '1': {name: punctuation.definition.tag.end.html}
-  patterns:
-  - include: '#tag-stuff'
-
-- include: '#entities'
-
-- name: invalid.illegal.incomplete.html
-  match: <>
-
-- name: invalid.illegal.bad-angle-bracket.html
-  match: <
-
-repository:
-  vue-interpolations:
-    patterns:
-    - name: expression.embbeded.vue
-      begin: \{\{\{?
-      end: \}\}\}?
-      beginCaptures:
-        '0': {name: punctuation.definition.generic.begin.html}
-      endCaptures:
-        '0': {name: punctuation.definition.generic.end.html}
-      patterns:
-      - include: source.js
-
-  vue-directives:
-    name: meta.directive.vue
-    begin: (?:\b(v-)|(:|@))([a-zA-Z\-]+)(?:\:([a-zA-Z\-]+))?(?:\.([a-zA-Z\-]+))*\s*(=)
-    end: (?<='|")
+        1: invalid.illegal.bad-comments-or-CDATA.html
+      pop: true
+    - match: -{2,}
+      scope: invalid.illegal.bad-comments-or-CDATA.html
+  - match: <!
+    scope: punctuation.definition.tag.html
+    push:
+    - meta_scope: meta.tag.sgml.html
+    - match: '>'
+      scope: punctuation.definition.tag.html
+      pop: true
+    - match: (?i:DOCTYPE)
+      scope: entity.name.tag.doctype.html
+      push:
+      - meta_scope: meta.tag.sgml.doctype.html
+      - match: (?=>)
+        pop: true
+      - match: '"[^">]*"'
+        scope: string.quoted.double.doctype.identifiers-and-DTDs.html
+    - match: \[CDATA\[
+      push:
+      - meta_scope: constant.other.inline-data.html
+      - match: ']](?=>)'
+        pop: true
+    - match: (\s*)(?!--|>)\S(\s*)
+      scope: invalid.illegal.bad-comments-or-CDATA.html
+  - match: (</?)([a-z_][a-z0-9:_]*-[a-z0-9:_-]+)
     captures:
-      '1': {name: entity.other.attribute-name.html}
-      '2': {name: punctuation.separator.key-value.html}
-      '3': {name: entity.other.attribute-name.html}
-      '4': {name: entity.other.attribute-name.html}
-      '5': {name: entity.other.attribute-name.html}
-      '6': {name: punctuation.separator.key-value.html}
-    patterns:
-    - name: source.directive.vue
-      begin: '"'
-      beginCaptures:
-        '0': {name: punctuation.definition.string.begin.html}
-      end: '"'
-      endCaptures:
-        '0': {name: punctuation.definition.string.end.html}
-      patterns:
-      - include: source.js
-    - name: source.directive.vue
-      begin: ''''
-      beginCaptures:
-        '0': {name: punctuation.definition.string.begin.html}
-      end: ''''
-      endCaptures:
-        '0': {name: punctuation.definition.string.end.html}
-      patterns:
-      - include: source.js
-
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.custom.html
+    push:
+    - meta_scope: meta.tag.custom.html
+    - match: '(?: ?/)?>'
+      scope: punctuation.definition.tag.end.html
+      pop: true
+    - include: tag-attributes
+  - match: (?:^\s+)?(<)((?i:style))\b(?![^>]*/>)
+    captures:
+      0: meta.tag.style.begin.html
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.style.html
+    push:
+    - match: (?i)(</)(style)(>)
+      captures:
+        0: meta.tag.style.end.html
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.style.html
+        3: punctuation.definition.tag.end.html
+      pop: true
+    - match: (>)\s*
+      captures:
+        1: meta.tag.style.begin.html punctuation.definition.tag.end.html
+      embed: scope:source.css
+      embed_scope: source.css.embedded.html
+      escape: (?i)(?=</style)
+    - match: ''
+      push:
+      - meta_scope: meta.tag.style.begin.html
+      - match: (?=>)
+        pop: true
+      - include: tag-attributes
+  - match: (<)((?i:script))\b(?![^>]*/>)(?![^>]*(?i:type.?=.?text/((?!javascript).*)))
+    captures:
+      0: meta.tag.script.begin.html
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.script.html
+    push:
+    - match: (?i)(-->)?\s*(</)(script)(>)
+      captures:
+        0: meta.tag.script.end.html
+        1: comment.block.html punctuation.definition.comment.html
+        2: punctuation.definition.tag.begin.html
+        3: entity.name.tag.script.html
+        4: punctuation.definition.tag.end.html
+      pop: true
+    - match: (>)\s*(<!--)?
+      captures:
+        1: meta.tag.script.begin.html punctuation.definition.tag.end.html
+        2: comment.block.html punctuation.definition.comment.html
+      embed: scope:source.js
+      embed_scope: source.js.embedded.html
+      escape: (?i)(?=(-->)?\s*</script)
+    - match: ''
+      push:
+      - meta_scope: meta.tag.script.begin.html
+      - match: (?=>)
+        pop: true
+      - include: tag-attributes
+  - match: (</?)((?i:body|head|html)\b)
+    captures:
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.structure.any.html
+    push:
+    - meta_scope: meta.tag.structure.any.html
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      pop: true
+    - include: tag-attributes
+  - match: (</?)((?i:address|blockquote|dd|div|section|article|aside|header|footer|nav|menu|dl|dt|frame|frameset|h1|h2|h3|h4|h5|h6|iframe|noframes|object|ol|p|ul|applet|center|dir|pre)\b)
+    captures:
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.block.any.html
+    push:
+    - meta_scope: meta.tag.block.any.html
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      pop: true
+    - include: tag-attributes
+  - match: (</?)((?i:hr)\b)
+    captures:
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.block.any.html
+    push:
+    - meta_scope: meta.tag.block.any.html
+    - match: '(?: ?/)?>'
+      scope: punctuation.definition.tag.end.html
+      pop: true
+    - include: tag-attributes
+  - match: (</?)((?i:form|fieldset)\b)
+    captures:
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.block.form.html
+    push:
+    - meta_scope: meta.tag.block.form.html
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      pop: true
+    - include: tag-attributes
+  - match: (</?)((?i:abbr|acronym|area|b|base|basefont|bdo|big|br|caption|cite|code|del|dfn|em|font|head|html|i|img|ins|isindex|kbd|li|link|map|meta|noscript|param|q|s|samp|script|small|span|strike|strong|style|sub|sup|title|tt|u|var)\b)
+    captures:
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.inline.any.html
+    push:
+    - meta_scope: meta.tag.inline.any.html
+    - match: '(?: ?/)?>'
+      scope: punctuation.definition.tag.end.html
+      pop: true
+    - include: tag-attributes
+  - match: (</?)((?i:button|input|label|legend|optgroup|option|select|textarea)\b)
+    captures:
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.inline.form.html
+    push:
+    - meta_scope: meta.tag.inline.form.html
+    - match: '(?: ?/)?>'
+      scope: punctuation.definition.tag.end.html
+      pop: true
+    - include: tag-attributes
+  - match: (</?)((?i:a)\b)
+    captures:
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.inline.a.html
+    push:
+    - meta_scope: meta.tag.inline.a.html
+    - match: '(?: ?/)?>'
+      scope: punctuation.definition.tag.end.html
+      pop: true
+    - include: tag-attributes
+  - match: (</?)((?i:col|colgroup|table|tbody|td|tfoot|th|thead|tr)\b)
+    captures:
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.inline.table.html
+    push:
+    - meta_scope: meta.tag.inline.table.html
+    - match: '(?: ?/)?>'
+      scope: punctuation.definition.tag.end.html
+      pop: true
+    - include: tag-attributes
+  - match: (</?)([A-Za-z0-9:_]+-[A-Za-z0-9:_-]+)
+    captures:
+      1: punctuation.definition.tag.begin.html
+      2: invalid.illegal.uppercase-custom-tag-name.html
+    push:
+    - meta_scope: meta.tag.custom.html
+    - match: '(?: ?/)?>'
+      scope: punctuation.definition.tag.end.html
+      pop: true
+    - include: tag-attributes
+  - match: (</?)([a-zA-Z0-9:]+)
+    captures:
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.other.html
+    push:
+    - meta_scope: meta.tag.other.html
+    - match: '(?: ?/)?>'
+      scope: punctuation.definition.tag.end.html
+      pop: true
+    - include: tag-attributes
+  - include: entities
+  - match: <>
+    scope: invalid.illegal.incomplete.html
+  entities-common:
+  - match: (&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)
+    scope: constant.character.entity.html
+    captures:
+      1: punctuation.definition.entity.html
+      3: punctuation.definition.entity.html
+  attribute-entities:
+  - include: entities-common
   entities:
-    patterns:
-    - name: constant.character.entity.html
-      match: (&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)
-      captures:
-        '1': {name: punctuation.definition.entity.html}
-        '3': {name: punctuation.definition.entity.html}
-    - name: invalid.illegal.bad-ampersand.html
-      match: '&'
-
+  - include: entities-common
+  - match: '&'
+    scope: invalid.illegal.bad-ampersand.html
   string-double-quoted:
-    name: string.quoted.double.html
-    begin: '"'
-    beginCaptures:
-      '0': {name: punctuation.definition.string.begin.html}
-    end: '"'
-    endCaptures:
-      '0': {name: punctuation.definition.string.end.html}
-    patterns:
-    - include: '#vue-interpolations'
-    - include: '#entities'
-
+  - match: '"'
+    scope: punctuation.definition.string.begin.html
+    push:
+    - meta_scope: string.quoted.double.html
+    - match: '"'
+      scope: punctuation.definition.string.end.html
+      pop: true
+    - include: entities
   string-single-quoted:
-    name: string.quoted.single.html
-    begin: ''''
-    beginCaptures:
-      '0': {name: punctuation.definition.string.begin.html}
-    end: ''''
-    endCaptures:
-      '0': {name: punctuation.definition.string.end.html}
-    patterns:
-    - include: '#vue-interpolations'
-    - include: '#entities'
+  - match: "'"
+    scope: punctuation.definition.string.begin.html
+    push:
+    - meta_scope: string.quoted.single.html
+    - match: "'"
+      scope: punctuation.definition.string.end.html
+      pop: true
+    - include: entities
 
   tag-generic-attribute:
-    name: entity.other.attribute-name.html
-    match: \b([a-zA-Z\-:]+)
+  - match: '[a-zA-Z0-9:\-_.]+'
+    scope: entity.other.attribute-name.html
+    push:
+    - tag-generic-attribute-meta
+    - tag-generic-attribute-equals
+
+  - match: '[a-zA-Z0-9:\-_.]+'
+    scope: entity.other.attribute-name.html
+
+  tag-generic-attribute-meta:
+  - meta_scope: meta.attribute-with-value.html
+  - include: immediately-pop
+
+  tag-generic-attribute-equals:
+  - match: '='
+    scope: punctuation.separator.key-value.html
+    set: tag-generic-attribute-value
+  - match: '{{not_equals_lookahead}}'
+    pop: true
+
+  tag-generic-attribute-value:
+  - match: '"'
+    scope: punctuation.definition.string.begin.html
+    set:
+    - meta_scope: string.quoted.double.html
+    - match: '"'
+      scope: punctuation.definition.string.end.html
+      pop: true
+    - include: attribute-entities
+  - match: "'"
+    scope: punctuation.definition.string.begin.html
+    set:
+    - meta_scope: string.quoted.single.html
+    - match: "'"
+      scope: punctuation.definition.string.end.html
+      pop: true
+    - include: attribute-entities
+  - match: '{{unquoted_attribute_value}}'
+    scope: string.unquoted.html
+  - include: else-pop
+
+  tag-class-attribute:
+  - match: \bclass\b
+    scope: entity.other.attribute-name.class.html
+    push:
+    - tag-class-attribute-meta
+    - tag-class-attribute-equals
+
+  tag-class-attribute-meta:
+  - meta_scope: meta.attribute-with-value.class.html
+  - include: immediately-pop
+
+  tag-class-attribute-equals:
+  - match: '='
+    scope: punctuation.separator.key-value.html
+    set: tag-class-attribute-value
+  - match: '{{not_equals_lookahead}}'
+    pop: true
+
+  tag-class-attribute-value:
+  - match: '"'
+    scope: punctuation.definition.string.begin.html
+    set:
+    - meta_scope: string.quoted.double.html
+    - meta_content_scope: meta.class-name.html
+    - match: '"'
+      scope: punctuation.definition.string.end.html
+      pop: true
+    - include: attribute-entities
+  - match: "'"
+    scope: punctuation.definition.string.begin.html
+    set:
+    - meta_scope: string.quoted.single.html
+    - meta_content_scope: meta.class-name.html
+    - match: "'"
+      scope: punctuation.definition.string.end.html
+      pop: true
+    - include: attribute-entities
+  - match: '{{unquoted_attribute_value}}'
+    scope: string.unquoted.html meta.class-name.html
+  - include: else-pop
 
   tag-id-attribute:
-    name: meta.attribute-with-value.id.html
-    begin: \b(id)\b\s*(=)
-    end: (?<='|")
+  - match: \bid\b
+    scope: entity.other.attribute-name.id.html
+    push:
+    - tag-id-attribute-meta
+    - tag-id-attribute-equals
+
+  tag-id-attribute-meta:
+  - meta_scope: meta.attribute-with-value.id.html
+  - include: immediately-pop
+
+  tag-id-attribute-equals:
+  - match: '='
+    scope: punctuation.separator.key-value.html
+    set: tag-id-attribute-value
+  - match: '{{not_equals_lookahead}}'
+    pop: true
+
+  tag-id-attribute-value:
+  - match: '"'
+    scope: punctuation.definition.string.begin.html
+    set:
+    - meta_scope: string.quoted.double.html
+    - meta_content_scope: meta.toc-list.id.html
+    - match: '"'
+      scope: punctuation.definition.string.end.html
+      pop: true
+    - include: attribute-entities
+  - match: "'"
+    scope: punctuation.definition.string.begin.html
+    set:
+    - meta_scope: string.quoted.single.html
+    - meta_content_scope: meta.toc-list.id.html
+    - match: "'"
+      scope: punctuation.definition.string.end.html
+      pop: true
+    - include: attribute-entities
+  - match: '{{unquoted_attribute_value}}'
+    scope: string.unquoted.html meta.toc-list.id.html
+  - include: else-pop
+
+  tag-style-attribute:
+  - match: \bstyle\b
+    scope: entity.other.attribute-name.style.html
+    push:
+    - tag-style-attribute-meta
+    - tag-style-attribute-equals
+
+  tag-style-attribute-meta:
+  - meta_scope: meta.attribute-with-value.style.html
+  - include: immediately-pop
+
+  tag-style-attribute-equals:
+  - match: '='
+    scope: punctuation.separator.key-value.html
+    set: tag-style-attribute-value
+  - match: '{{not_equals_lookahead}}'
+    pop: true
+
+  tag-style-attribute-value:
+  - match: '"'
+    scope: string.quoted.double punctuation.definition.string.begin.html
+    embed: scope:source.css#rule-list-body
+    embed_scope: source.css
+    escape: '"'
+    escape_captures:
+      0: string.quoted.double punctuation.definition.string.end.html
+  - match: "'"
+    scope: string.quoted.single punctuation.definition.string.begin.html
+    embed: scope:source.css#rule-list-body
+    embed_scope: source.css
+    escape: "'"
+    escape_captures:
+      0: string.quoted.single punctuation.definition.string.end.html
+  - include: else-pop
+
+  tag-event-attribute:
+  - match: |-
+      (?x)\bon(
+        abort|autocomplete|autocompleteerror|blur|cancel|canplay
+        |canplaythrough|change|click|close|contextmenu|cuechange|dblclick|drag
+        |dragend|dragenter|dragexit|dragleave|dragover|dragstart|drop
+        |durationchange|emptied|ended|error|focus|input|invalid|keydown
+        |keypress|keyup|load|loadeddata|loadedmetadata|loadstart|mousedown
+        |mouseenter|mouseleave|mousemove|mouseout|mouseover|mouseup|mousewheel
+        |pause|play|playing|progress|ratechange|reset|resize|scroll|seeked
+        |seeking|select|show|sort|stalled|submit|suspend|timeupdate|toggle
+        |volumechange|waiting
+      )\b
+    scope: entity.other.attribute-name.event.html
+    push:
+    - tag-event-attribute-meta
+    - tag-event-attribute-equals
+
+  tag-event-attribute-meta:
+  - meta_scope: meta.attribute-with-value.event.html
+  - include: immediately-pop
+
+  tag-event-attribute-equals:
+  - match: '='
+    scope: punctuation.separator.key-value.html
+    set: tag-event-attribute-value
+  - match: '{{not_equals_lookahead}}'
+    pop: true
+
+  tag-event-attribute-value:
+  - match: '"'
+    scope: string.quoted.double punctuation.definition.string.begin.html
+    embed: scope:source.js
+    embed_scope: meta.attribute-with-value.event.html
+    escape: '"'
+    escape_captures:
+      0: string.quoted.double punctuation.definition.string.end.html
+  - match: "'"
+    scope: string.quoted.single punctuation.definition.string.begin.html meta.attribute-with-value.event.html
+    embed: scope:source.js
+    embed_scope: meta.attribute-with-value.event.html
+    escape: "'"
+    escape_captures:
+      0: string.quoted.single punctuation.definition.string.end.html
+  - include: else-pop
+
+  tag-attributes:
+  - include: vue-directive
+
+  - include: tag-id-attribute
+  - include: tag-class-attribute
+  - include: tag-style-attribute
+  - include: tag-event-attribute
+  - include: tag-generic-attribute
+  template-tag:
+  - match: (?i)(<)(template)\b
     captures:
-      '1': {name: entity.other.attribute-name.id.html}
-      '2': {name: punctuation.separator.key-value.html}
-    patterns:
-    - name: string.quoted.double.html
-      contentName: meta.toc-list.id.html
-      begin: '"'
-      beginCaptures:
-        '0': {name: punctuation.definition.string.begin.html}
-      end: '"'
-      endCaptures:
-        '0': {name: punctuation.definition.string.end.html}
-      patterns:
-      - include: '#vue-interpolations'
-      - include: '#entities'
-    - name: string.quoted.single.html
-      contentName: meta.toc-list.id.html
-      begin: ''''
-      beginCaptures:
-        '0': {name: punctuation.definition.string.begin.html}
-      end: ''''
-      endCaptures:
-        '0': {name: punctuation.definition.string.end.html}
-      patterns:
-      - include: '#vue-interpolations'
-      - include: '#entities'
+      0: meta.tag.template.begin.html
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.template.html
+    push:
+    - match: (?i)(</)(template)(>)
+      captures:
+        0: meta.tag.template.end.html
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.template.html
+        3: punctuation.definition.tag.end.html
+      pop: true
+    - match: '>'
+      scope: meta.tag.template.begin.html punctuation.definition.tag.end.html
+      push: mustache-template
+    - match: ''
+      push:
+      - meta_scope: meta.tag.template.begin.html
+      - match: (?=>)
+        pop: true
+      - include: tag-attributes
 
-  tag-stuff:
-    patterns:
-    - include: '#vue-directives'
-    - include: '#tag-id-attribute'
-    - include: '#tag-generic-attribute'
-    - include: '#string-double-quoted'
-    - include: '#string-single-quoted'
+  mustache-template:
+  - match: (?=</template)
+    pop: true
+  - match: '{{'
+    scope: punctuation.definition.template.begin.html
+    embed: scope:source.js
+    escape: '}}'
+    escape_captures:
+      0: punctuation.definition.template.end.html
+  - include: main
 
-foldingStartMarker: |-
-  (?x)
-  (<(?i:head|body|table|thead|tbody|tfoot|tr|div|select|fieldset|style|script|ul|ol|li|form|dl)\b.*?>
-  |<!--(?!.*--\s*>)
-  |^<!--\ \#tminclude\ (?>.*?-->)$
-  |<\?(?:php)?.*\b(if|for(each)?|while)\b.+:
-  |\{\{?(if|foreach|capture|literal|foreach|php|section|strip)
-  |\{\s*($|\?>\s*$|//|/\*(.*\*/\s*$|(?!.*?\*/)))
-  )
+  vue-directive:
+  - match: \b(v-[\w-]+)\b
+    scope: entity.other.attribute-name.html
+    push: js-attribute-value
+  - match: \B(:|@)([\w-]+)\b
+    captures:
+      1: punctuation.definition.attribute.html
+      2: entity.other.attribute-name.html
+    push: js-attribute-value
 
-foldingStopMarker: |-
-  (?x)
-  (</(?i:head|body|table|thead|tbody|tfoot|tr|div|select|fieldset|style|script|ul|ol|li|form|dl)>
-  |^(?!.*?<!--).*?--\s*>
-  |^<!--\ end\ tminclude\ -->$
-  |<\?(?:php)?.*\bend(if|for(each)?|while)\b
-  |\{\{?/(if|foreach|capture|literal|foreach|php|section|strip)
-  |^[^{]*\}
-  )
+  js-attribute-value:
+  - match: '='
+    scope: punctuation.separator.key-value.html
+    set: js-string
+  - include: else-pop
 
-keyEquivalent: ^~H
+  js-string:
+  - match: '"'
+    scope: punctuation.definition.string.begin.html
+    embed: scope:source.js
+    escape: '"'
+    escape_captures:
+      0: punctuation.definition.string.end.html
+  - match: "'"
+    scope: punctuation.definition.string.begin.html
+    embed: scope:source.js
+    escape: "'"
+    escape_captures:
+      0: punctuation.definition.string.end.html
+  - include: else-pop
+
+  langs:
+  - match: (?i)(<)((?:script))\b(?=[^>]*lang=(['"])coffee?)
+    captures:
+      0: meta.tag.script.begin.html
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.script.html
+    push:
+    - match: (?i)(</)(script)(>)
+      captures:
+        0: meta.tag.script.end.html
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.script.html
+        3: punctuation.definition.tag.end.html
+      pop: true
+    - match: (>)
+      captures:
+        1: meta.tag.script.begin.html punctuation.definition.tag.end.html
+      embed: scope:source.coffee
+      escape: (?i)(?=</script)
+    - match: ''
+      push:
+      - meta_scope: meta.tag.script.begin.html
+      - match: (?=>)
+        pop: true
+      - include: tag-attributes
+  - match: (?i)(<)((?:script))\b(?=[^>]*lang=(['"])livescript?)
+    captures:
+      0: meta.tag.script.begin.html
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.script.html
+    push:
+    - match: (?i)(</)(script)(>)
+      captures:
+        0: meta.tag.script.end.html
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.script.html
+        3: punctuation.definition.tag.end.html
+      pop: true
+    - match: (>)
+      captures:
+        1: meta.tag.script.begin.html punctuation.definition.tag.end.html
+      embed: scope:source.livescript
+      escape: (?i)(?=</script)
+    - match: ''
+      push:
+      - meta_scope: meta.tag.script.begin.html
+      - match: (?=>)
+        pop: true
+      - include: tag-attributes
+  - match: (?i)(<)((?:script))\b(?=[^>]*lang=(['"])ts?)
+    captures:
+      0: meta.tag.script.begin.html
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.script.html
+    push:
+    - match: (?i)(</)(script)(>)
+      captures:
+        0: meta.tag.script.end.html
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.script.html
+        3: punctuation.definition.tag.end.html
+      pop: true
+    - match: (>)
+      captures:
+        1: meta.tag.script.begin.html punctuation.definition.tag.end.html
+      embed: scope:source.ts
+      escape: (?i)(?=</script)
+    - match: ''
+      push:
+      - meta_scope: meta.tag.script.begin.html
+      - match: (?=>)
+        pop: true
+      - include: tag-attributes
+  - match: (?i)(<)((?:script))\b(?=[^>]*)
+    captures:
+      0: meta.tag.script.begin.html
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.script.html
+    push:
+    - match: (?i)(</)(script)(>)
+      captures:
+        0: meta.tag.script.end.html
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.script.html
+        3: punctuation.definition.tag.end.html
+      pop: true
+    - match: (>)
+      captures:
+        1: meta.tag.script.begin.html punctuation.definition.tag.end.html
+      embed: scope:source.js
+      escape: (?i)(?=</script)
+    - match: ''
+      push:
+      - meta_scope: meta.tag.script.begin.html
+      - match: (?=>)
+        pop: true
+      - include: tag-attributes
+  - match: (?i)(<)((?:style))\b(?=[^>]*lang=(['"])sass?)
+    captures:
+      0: meta.tag.style.begin.html
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.style.html
+    push:
+    - match: (?i)(</)(style)(>)
+      captures:
+        0: meta.tag.style.end.html
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.style.html
+        3: punctuation.definition.tag.end.html
+      pop: true
+    - match: (>)
+      captures:
+        1: meta.tag.style.begin.html punctuation.definition.tag.end.html
+      embed: scope:source.sass
+      escape: (?i)(?=</style)
+    - match: ''
+      push:
+      - meta_scope: meta.tag.style.begin.html
+      - match: (?=>)
+        pop: true
+      - include: tag-attributes
+  - match: (?i)(<)((?:style))\b(?=[^>]*lang=(['"])scss?)
+    captures:
+      0: meta.tag.style.begin.html
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.style.html
+    push:
+    - match: (?i)(</)(style)(>)
+      captures:
+        0: meta.tag.style.end.html
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.style.html
+        3: punctuation.definition.tag.end.html
+      pop: true
+    - match: (>)
+      captures:
+        1: meta.tag.style.begin.html punctuation.definition.tag.end.html
+      embed: scope:source.sass
+      escape: (?i)(?=</style)
+    - match: ''
+      push:
+      - meta_scope: meta.tag.style.begin.html
+      - match: (?=>)
+        pop: true
+      - include: tag-attributes
+  - match: (?i)(<)((?:style))\b(?=[^>]*lang=(['"])stylus?)
+    captures:
+      0: meta.tag.style.begin.html
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.style.html
+    push:
+    - match: (?i)(</)(style)(>)
+      captures:
+        0: meta.tag.style.end.html
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.style.html
+        3: punctuation.definition.tag.end.html
+      pop: true
+    - match: (>)
+      captures:
+        1: meta.tag.style.begin.html punctuation.definition.tag.end.html
+      embed: scope:source.stylus
+      escape: (?i)(?=</style)
+    - match: ''
+      push:
+      - meta_scope: meta.tag.style.begin.html
+      - match: (?=>)
+        pop: true
+      - include: tag-attributes
+  - match: (?i)(<)((?:style))\b(?=[^>]*lang=(['"])postcss?)
+    captures:
+      0: meta.tag.style.begin.html
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.style.html
+    push:
+    - match: (?i)(</)(style)(>)
+      captures:
+        0: meta.tag.style.end.html
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.style.html
+        3: punctuation.definition.tag.end.html
+      pop: true
+    - match: (>)
+      captures:
+        1: meta.tag.style.begin.html punctuation.definition.tag.end.html
+      embed: scope:source.postcss
+      escape: (?i)(?=</style)
+    - match: ''
+      push:
+      - meta_scope: meta.tag.style.begin.html
+      - match: (?=>)
+        pop: true
+      - include: tag-attributes
+  - match: (?i)(<)((?:style))\b(?=[^>]*lang=(['"])less?)
+    captures:
+      0: meta.tag.style.begin.html
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.style.html
+    push:
+    - match: (?i)(</)(style)(>)
+      captures:
+        0: meta.tag.style.end.html
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.style.html
+        3: punctuation.definition.tag.end.html
+      pop: true
+    - match: (>)
+      captures:
+        1: meta.tag.style.begin.html punctuation.definition.tag.end.html
+      embed: scope:source.less
+      escape: (?i)(?=</style)
+    - match: ''
+      push:
+      - meta_scope: meta.tag.style.begin.html
+      - match: (?=>)
+        pop: true
+      - include: tag-attributes
+  - match: (?i)(<)((?:style))\b(?=[^>]*)
+    captures:
+      0: meta.tag.style.begin.html
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.style.html
+    push:
+    - match: (?i)(</)(style)(>)
+      captures:
+        0: meta.tag.style.end.html
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.style.html
+        3: punctuation.definition.tag.end.html
+      pop: true
+    - match: (>)
+      captures:
+        1: meta.tag.style.begin.html punctuation.definition.tag.end.html
+      embed: scope:source.css
+      escape: (?i)(?=</style)
+    - match: ''
+      push:
+      - meta_scope: meta.tag.style.begin.html
+      - match: (?=>)
+        pop: true
+      - include: tag-attributes
+  - match: (?i)(<)((?:template))\b(?=[^>]*lang=(['"])jade?)
+    captures:
+      0: meta.tag.template.begin.html
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.template.html
+    push:
+    - match: (?i)(</)(template)(>)
+      captures:
+        0: meta.tag.template.end.html
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.template.html
+        3: punctuation.definition.tag.end.html
+      pop: true
+    - match: (>)
+      captures:
+        1: meta.tag.template.begin.html punctuation.definition.tag.end.html
+      embed: scope:text.jade
+      escape: (?i)(?=</template)
+    - match: ''
+      push:
+      - meta_scope: meta.tag.template.begin.html
+      - match: (?=>)
+        pop: true
+      - include: tag-attributes
+  - match: (?i)(<)((?:template))\b(?=[^>]*lang=(['"])pug?)
+    captures:
+      0: meta.tag.template.begin.html
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.template.html
+    push:
+    - match: (?i)(</)(template)(>)
+      captures:
+        0: meta.tag.template.end.html
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.template.html
+        3: punctuation.definition.tag.end.html
+      pop: true
+    - match: (>)
+      captures:
+        1: meta.tag.template.begin.html punctuation.definition.tag.end.html
+      embed: scope:text.pug
+      escape: (?i)(?=</template)
+    - match: ''
+      push:
+      - meta_scope: meta.tag.template.begin.html
+      - match: (?=>)
+        pop: true
+      - include: tag-attributes
+  - match: (?i)(<)((?:template))\b(?=[^>]*lang=(['"])slm?)
+    captures:
+      0: meta.tag.template.begin.html
+      1: punctuation.definition.tag.begin.html
+      2: entity.name.tag.template.html
+    push:
+    - match: (?i)(</)(template)(>)
+      captures:
+        0: meta.tag.template.end.html
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.template.html
+        3: punctuation.definition.tag.end.html
+      pop: true
+    - match: (>)
+      captures:
+        1: meta.tag.template.begin.html punctuation.definition.tag.end.html
+      embed: scope:text.slm
+      escape: (?i)(?=</template)
+    - match: ''
+      push:
+      - meta_scope: meta.tag.template.begin.html
+      - match: (?=>)
+        pop: true
+      - include: tag-attributes
+
+hidden: false
